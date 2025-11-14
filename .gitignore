@@ -1,0 +1,36 @@
+.DS_Store
+.env
+.env.*
+*.py[cod]
+*.log
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+.hypothesis/
+.venv/
+venv/
+env/
+pip-wheel-metadata/
+site/
+dist/
+build/
+
+# IDE / tooling
+.idea/
+.vscode/
+
+# Reports
+allure-results/
+allure-report/
+reports/
+
+# Node artifacts
+node_modules/
+
+# Misc
+*.swp
+*.swo
+
