@@ -22,5 +22,14 @@ Pet-проект для практики QA Automation на Python. Планир
 - [Минималистичная коробочка-панель с 2D элементами](https://ru.pinterest.com/pin/391109548913366090/)
 - [Weekly recap в стиле lifestyle/pastel](https://ru.pinterest.com/pin/9007268002419800/)
 
-Дальше в репозитории появятся инструкции по запуску и чеклист тестовых пакетов.
+## Быстрый старт
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest -m smoke
+```
+
+Переменные окружения можно складывать в `.env` (см. `tests/conftest.py` для имен). Позже добавим инструкции по запуску UI/API моков и чеклисты тестовых пакетов.
 
