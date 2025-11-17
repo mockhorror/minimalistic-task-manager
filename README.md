@@ -12,9 +12,9 @@ Pet-проект для практики QA Automation на Python. Планир
 План работ:
 
 1. Сбор требований и сценариев (готово).
-2. Подготовка окружения и GitHub-репозитория (текущий шаг).
-3. Создание каркаса тестового проекта и зависимостей.
-4. UI-автотесты, API-слой, Allure, CI, Docker (по мере готовности).
+2. Подготовка окружения и GitHub-репозитория (готово).
+3. Создание каркаса тестового проекта и зависимостей (готово).
+4. UI-автотесты, API-слой, Allure, CI, Docker (в работе).
 
 Референсы UI/эстетики:
 
@@ -31,5 +31,25 @@ pip install -r requirements.txt
 pytest -m smoke
 ```
 
-Переменные окружения можно складывать в `.env` (см. `tests/conftest.py` для имен). Позже добавим инструкции по запуску UI/API моков и чеклисты тестовых пакетов.
+Переменные окружения можно складывать в `.env` (см. `tests/conftest.py` для имен).
+
+## UI smoke-тест
+
+Настраиваем `.env`:
+
+```
+PPTM_UI_BASE_URL=https://pilates-princess-demo.example.com
+PPTM_BROWSER=chrome         # chrome или firefox
+PPTM_HEADLESS=1             # 0 чтобы видеть браузер
+PPTM_UI_IMPLICIT_WAIT=5
+```
+
+Запуск smoke-сценария:
+
+```bash
+source .venv/bin/activate
+pytest tests/ui/smoke -m ui
+```
+
+Если `PPTM_UI_BASE_URL` оставлен по умолчанию (локальный localhost), smoke-тест автоматически пропускается до появления реального стенда.
 
