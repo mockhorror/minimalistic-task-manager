@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pilates Princess Daybook</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Space+Grotesk:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="app" data-theme="pilates-princess">
+      <section class="planner">
+        <header class="planner__header">
+          <div>
+            <p class="pill">Pilates Princess</p>
+            <h1>Daybook</h1>
+            <p class="subtitle">Собери свой нежный to-do лист</p>
+          </div>
+          <div class="theme-switcher">
+            <label for="theme-select">Эстетика</label>
+            <select id="theme-select">
+              <option value="pilates-princess">Pilates Princess</option>
+              <option value="matcha-village">Matcha Village</option>
+              <option value="beach-episode">Beach Episode</option>
+            </select>
+          </div>
+        </header>
+
+        <section class="tasks" data-testid="task-column">
+          <div class="tasks__header">
+            <h2>Сегодня</h2>
+            <form id="task-form">
+              <input
+                type="text"
+                id="task-input"
+                placeholder="Добавить задачу..."
+                autocomplete="off"
+              />
+              <button type="submit">+</button>
+            </form>
+          </div>
+          <ul id="task-list"></ul>
+        </section>
+
+        <button class="finish-btn" data-testid="finish-day-button">
+          Завершить день ✨
+        </button>
+        <p class="finish-msg" id="finish-msg">Хорошая работа!</p>
+      </section>
+
+      <section class="decor-panel" data-testid="decor-panel">
+        <header>
+          <p class="pill">Decor lab</p>
+          <h2>Желейные элементы</h2>
+          <p class="subtitle">
+            Перетаскивай элементы на страницу, чтобы настроить настроение дня
+          </p>
+        </header>
+        <div id="decor-grid" class="decor-grid"></div>
+      </section>
+    </main>
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
+
