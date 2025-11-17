@@ -58,6 +58,14 @@ body[data-theme="dexter-lab"] .decor-card p {
   color: #0c0c0c;
 }
 
+body[data-theme="dexter-lab"] .task {
+  color: #0d0d0d;
+}
+
+body[data-theme="dexter-lab"] .task__text {
+  color: #0d0d0d;
+}
+
 .app {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
