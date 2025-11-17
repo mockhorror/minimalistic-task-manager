@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  tests:
+    build:
+      context: .
+    environment:
+      PPTM_UI_BASE_URL: ${PPTM_UI_BASE_URL:-http://host.docker.internal:4173}
+      PPTM_API_BASE_URL: ${PPTM_API_BASE_URL:-http://host.docker.internal:8000}
+      PPTM_BROWSER: ${PPTM_BROWSER:-chrome}
+      PPTM_HEADLESS: ${PPTM_HEADLESS:-1}
+      PPTM_UI_IMPLICIT_WAIT: ${PPTM_UI_IMPLICIT_WAIT:-5}
+    volumes:
+      - ./allure-results:/app/allure-results
+    command: >
+      pytest -m "ui or api" --alluredir=allure-results
+

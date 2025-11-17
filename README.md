@@ -83,5 +83,23 @@ GitHub Actions (`.github/workflows/tests.yml`) автоматически:
 
 При появлении реальных стендов добавь в Secrets (`PPTM_UI_BASE_URL`, `PPTM_API_BASE_URL`) и workflow начнёт выполнять smoke-сценарии без `skip`.
 
+## Docker
+
+`Dockerfile` и `docker-compose.yml` позволяют запускать pytest внутри контейнера с предустановленным Chrome.
+
+```bash
+# 1. Собрать образ
+docker compose build tests
+
+# 2. Запустить один прогон
+PPTM_UI_BASE_URL=https://demo-ui.example.com \
+PPTM_API_BASE_URL=https://demo-api.example.com \
+docker compose run --rm tests
+```
+
+По умолчанию compose прокидывает базовые URL на `host.docker.internal` (удобно, если UI/API мок запущены локально). Результаты Allure будут собираться в `./allure-results` благодаря volume.
+
+> На macOS 12 (Monterey) Docker Desktop больше не поддерживается. Можно использовать альтернативы вроде [Colima](https://github.com/abiosoft/colima), после чего команды `docker compose …` работают так же.
+
 При отсутствии настроенного API (значение по умолчанию `http://localhost:8000`) тест помечается `skip`, чтобы пайплайн оставался зелёным до появления стенда.
 
