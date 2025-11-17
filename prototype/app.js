@@ -7,6 +7,8 @@ const taskInput = document.querySelector("#task-input");
 const finishBtn = document.querySelector(".finish-btn");
 const finishMsg = document.querySelector("#finish-msg");
 const stickerCanvas = document.querySelector("#sticker-canvas");
+const body = document.body;
+const VISIBLE_DECOR_CARDS = 6;
 
 const themes = {
   "pilates-princess": {
@@ -19,6 +21,8 @@ const themes = {
       { icon: "🌸", label: "Sakura tape" },
       { icon: "🧴", label: "Glow serum" },
       { icon: "🫧", label: "Bubble dividers" },
+      { icon: "🪞", label: "Mirror charm" },
+      { icon: "🪩", label: "Disco gloss" },
     ],
   },
   "matcha-village": {
@@ -31,6 +35,8 @@ const themes = {
       { icon: "📜", label: "Haiku scroll" },
       { icon: "🪴", label: "Moss buddy" },
       { icon: "🎋", label: "Tanabata ribbon" },
+      { icon: "🧺", label: "Bamboo basket" },
+      { icon: "🍃", label: "Tea steam" },
     ],
   },
   "beach-episode": {
@@ -43,6 +49,8 @@ const themes = {
       { icon: "🪸", label: "Coral corners" },
       { icon: "🌺", label: "Hibiscus spark" },
       { icon: "🫧", label: "Seafoam bubbles" },
+      { icon: "🕶️", label: "Sunset shades" },
+      { icon: "🧉", label: "Coconut sip" },
     ],
   },
   "dexter-lab": {
@@ -55,6 +63,8 @@ const themes = {
       { icon: "🩻", label: "Scan overlay" },
       { icon: "🧪", label: "Lab vial" },
       { icon: "🌙", label: "Moon sigil" },
+      { icon: "🕷️", label: "Shadow spider" },
+      { icon: "🩹", label: "Silver tape" },
     ],
   },
 };
@@ -77,32 +87,49 @@ function renderTasks() {
   });
 }
 
-function renderDecor(theme) {
-  decorGrid.innerHTML = "";
+function getNextDecor(theme) {
   const pool = themes[theme].decor;
   if (!deckState[theme]) deckState[theme] = 0;
-  const start = deckState[theme];
-  const visibleCount = Math.min(6, pool.length);
+  const data = pool[deckState[theme] % pool.length];
+  deckState[theme] = (deckState[theme] + 1) % pool.length;
+  return data;
+}
 
-  for (let i = 0; i < visibleCount; i++) {
-    const idx = (start + i) % pool.length;
-    const card = pool[idx];
-    const div = document.createElement("div");
-    div.className = "decor-card";
-    div.draggable = true;
-    div.dataset.icon = card.icon;
-    div.dataset.label = card.label;
-    div.innerHTML = `<span>${card.icon}</span><p>${card.label}</p>`;
-    div.addEventListener("dragstart", handleDecorDragStart);
-    decorGrid.appendChild(div);
+function createDecorCard(theme, slot) {
+  const card = getNextDecor(theme);
+  const div = document.createElement("div");
+  div.className = "decor-card";
+  div.draggable = true;
+  div.dataset.icon = card.icon;
+  div.dataset.label = card.label;
+  div.dataset.slot = slot;
+  div.innerHTML = `<span>${card.icon}</span><p>${card.label}</p>`;
+  div.addEventListener("dragstart", handleDecorDragStart);
+  return div;
+}
+
+function renderDecor(theme) {
+  decorGrid.innerHTML = "";
+  for (let slot = 0; slot < VISIBLE_DECOR_CARDS; slot += 1) {
+    decorGrid.appendChild(createDecorCard(theme, slot));
   }
+}
+
+function replaceDecorCard(theme, slot) {
+  const target = decorGrid.querySelector(`[data-slot="${slot}"]`);
+  if (!target) {
+    return;
+  }
+  const replacement = createDecorCard(theme, slot);
+  target.replaceWith(replacement);
 }
 
 function setTheme(theme) {
   appRoot.dataset.theme = theme;
+  body.dataset.theme = theme;
   deckState[theme] = 0;
   renderDecor(theme);
-  stickerCanvas.innerHTML = `<p class="sticker-placeholder">Перетащи милые стикеры сюда</p>`;
+  resetStickerCanvas();
   updateStickerPlaceholder();
 }
 
@@ -112,10 +139,10 @@ function updateStickerPlaceholder() {
 }
 
 function handleDecorDragStart(event) {
-  const { icon, label } = event.currentTarget.dataset;
+  const { icon, label, slot } = event.currentTarget.dataset;
   event.dataTransfer.setData(
     "application/json",
-    JSON.stringify({ icon, label })
+    JSON.stringify({ icon, label, slot })
   );
   event.dataTransfer.effectAllowed = "copy";
 }
@@ -125,7 +152,7 @@ function handleStickerDrop(event) {
   const data = event.dataTransfer.getData("application/json");
   if (!data) return;
 
-  const { icon, label } = JSON.parse(data);
+  const { icon, label, slot } = JSON.parse(data);
   const rect = stickerCanvas.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
@@ -144,8 +171,17 @@ function handleStickerDrop(event) {
 
   stickerCanvas.appendChild(sticker);
   updateStickerPlaceholder();
-  deckState[themeSelect.value] = (deckState[themeSelect.value] || 0) + 1;
-  renderDecor(themeSelect.value);
+  if (typeof slot !== "undefined") {
+    replaceDecorCard(themeSelect.value, Number(slot));
+  }
+}
+
+function resetStickerCanvas() {
+  stickerCanvas.innerHTML = "";
+  const placeholder = document.createElement("p");
+  placeholder.className = "sticker-placeholder";
+  placeholder.textContent = "Перетащи милые стикеры сюда";
+  stickerCanvas.appendChild(placeholder);
 }
 
 taskForm.addEventListener("submit", (event) => {
