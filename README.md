@@ -48,7 +48,7 @@ PPTM_UI_IMPLICIT_WAIT=5
 
 ```bash
 source .venv/bin/activate
-pytest tests/ui/smoke -m ui
+pytest tests/ui/smoke -m ui --alluredir=allure-results
 ```
 
 Если `PPTM_UI_BASE_URL` оставлен по умолчанию (локальный localhost), smoke-тест автоматически пропускается до появления реального стенда.
@@ -61,8 +61,17 @@ PPTM_API_BASE_URL=https://pilates-princess-api.example.com
 
 ```bash
 source .venv/bin/activate
-pytest tests/api/smoke -m api
+pytest tests/api/smoke -m api --alluredir=allure-results
 ```
+## Allure отчёт
+
+```bash
+source .venv/bin/activate
+pytest -m "ui or api" --alluredir=allure-results
+allure serve allure-results
+```
+
+`allure.properties` и `.allure.yml` уже настроены на каталог `allure-results`.
 
 При отсутствии настроенного API (значение по умолчанию `http://localhost:8000`) тест помечается `skip`, чтобы пайплайн оставался зелёным до появления стенда.
 

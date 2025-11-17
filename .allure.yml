@@ -1,0 +1,8 @@
+spec:
+  version: 1
+  tests:
+    directories:
+      - tests
+  results:
+    pattern: allure-results
+

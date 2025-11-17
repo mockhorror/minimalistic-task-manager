@@ -1,8 +1,12 @@
+import allure
 import pytest
 
 from tests.ui.pages.dashboard_page import DashboardPage
 
 
+@allure.feature("Dashboard")
+@allure.story("Smoke widgets")
+@allure.title("Панель ежедневника отображает основные блоки")
 @pytest.mark.ui
 @pytest.mark.smoke
 def test_dashboard_displays_core_widgets(driver, ui_base_url):
@@ -13,9 +17,14 @@ def test_dashboard_displays_core_widgets(driver, ui_base_url):
         )
 
     page = DashboardPage(driver, ui_base_url)
-    page.open()
 
-    assert page.is_loaded(), "Основные блоки ежедневника не отобразились"
-    assert page.finish_day_is_visible(), "Кнопка завершения дня недоступна"
+    with allure.step("Открываем страницу ежедневника"):
+        page.open()
+
+    with allure.step("Проверяем наличие основных блоков"):
+        assert page.is_loaded(), "Основные блоки ежедневника не отобразились"
+
+    with allure.step("Проверяем кнопку завершения дня"):
+        assert page.finish_day_is_visible(), "Кнопка завершения дня недоступна"
 
 
