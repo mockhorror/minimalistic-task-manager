@@ -17,6 +17,8 @@ const themes = {
       { icon: "📎", label: "Rose clips" },
       { icon: "🩰", label: "Ballet tabs" },
       { icon: "🌸", label: "Sakura tape" },
+      { icon: "🧴", label: "Glow serum" },
+      { icon: "🫧", label: "Bubble dividers" },
     ],
   },
   "matcha-village": {
@@ -27,6 +29,8 @@ const themes = {
       { icon: "🥠", label: "Fortune stickers" },
       { icon: "🍡", label: "Dango dots" },
       { icon: "📜", label: "Haiku scroll" },
+      { icon: "🪴", label: "Moss buddy" },
+      { icon: "🎋", label: "Tanabata ribbon" },
     ],
   },
   "beach-episode": {
@@ -37,9 +41,25 @@ const themes = {
       { icon: "🩴", label: "Flip-flop tabs" },
       { icon: "🍧", label: "Shaved ice tag" },
       { icon: "🪸", label: "Coral corners" },
+      { icon: "🌺", label: "Hibiscus spark" },
+      { icon: "🫧", label: "Seafoam bubbles" },
+    ],
+  },
+  "dexter-lab": {
+    decor: [
+      { icon: "🩸", label: "Blood droplets" },
+      { icon: "🔪", label: "Knife tabs" },
+      { icon: "🧬", label: "DNA ribbon" },
+      { icon: "🪞", label: "Mirror shard" },
+      { icon: "🕯️", label: "Candle ritual" },
+      { icon: "🩻", label: "Scan overlay" },
+      { icon: "🧪", label: "Lab vial" },
+      { icon: "🌙", label: "Moon sigil" },
     ],
   },
 };
+
+const deckState = {};
 
 let tasks = [
   { id: crypto.randomUUID(), text: "Morning pilates flow", done: false },
@@ -62,7 +82,14 @@ function renderTasks() {
 
 function renderDecor(theme) {
   decorGrid.innerHTML = "";
-  themes[theme].decor.forEach((card) => {
+  const pool = themes[theme].decor;
+  if (!deckState[theme]) deckState[theme] = 0;
+  const start = deckState[theme];
+  const visibleCount = Math.min(6, pool.length);
+
+  for (let i = 0; i < visibleCount; i++) {
+    const idx = (start + i) % pool.length;
+    const card = pool[idx];
     const div = document.createElement("div");
     div.className = "decor-card";
     div.draggable = true;
@@ -71,11 +98,12 @@ function renderDecor(theme) {
     div.innerHTML = `<span>${card.icon}</span><p>${card.label}</p>`;
     div.addEventListener("dragstart", handleDecorDragStart);
     decorGrid.appendChild(div);
-  });
+  }
 }
 
 function setTheme(theme) {
   appRoot.dataset.theme = theme;
+  deckState[theme] = 0;
   renderDecor(theme);
 }
 
@@ -117,6 +145,8 @@ function handleStickerDrop(event) {
 
   stickerCanvas.appendChild(sticker);
   updateStickerPlaceholder();
+  deckState[themeSelect.value] = (deckState[themeSelect.value] || 0) + 1;
+  renderDecor(themeSelect.value);
 }
 
 taskForm.addEventListener("submit", (event) => {

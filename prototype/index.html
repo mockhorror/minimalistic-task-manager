@@ -16,15 +16,17 @@
     <main class="app" data-theme="pilates-princess">
       <section class="planner">
         <header class="planner__header">
-          <div>
+          <div class="title-stack">
+            <p class="caps-label">Aesthetic</p>
             <h1>Daybook</h1>
           </div>
           <div class="theme-switcher">
-            <label for="theme-select">Эстетика</label>
+            <label class="caps-label" for="theme-select">Aesthetic</label>
             <select id="theme-select">
               <option value="pilates-princess">Pilates Princess</option>
               <option value="matcha-village">Matcha Village</option>
               <option value="beach-episode">Beach Episode</option>
+              <option value="dexter-lab">Dexter Midnight</option>
             </select>
           </div>
         </header>
@@ -60,11 +62,10 @@
       </section>
 
       <section class="decor-panel" data-testid="decor-panel">
-        <header>
-          <p class="decor-label">Decor Lab</p>
-          <h2 class="decor-title">mood sticker pack</h2>
+        <header class="decor-header">
+          <p class="caps-label">Decor Lab</p>
           <p class="subtitle">
-            Перетаскивай элементы на страницу, чтобы настроить настроение дня
+            Drag & drop whatever vibe you want for today
           </p>
         </header>
         <div id="decor-grid" class="decor-grid"></div>
