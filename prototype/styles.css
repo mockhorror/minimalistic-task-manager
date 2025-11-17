@@ -50,6 +50,14 @@ body[data-theme="dexter-lab"] .finish-msg {
   color: #ffe1e1;
 }
 
+body[data-theme="dexter-lab"] .sticker-canvas .sticker-placeholder {
+  color: #ffffff;
+}
+
+body[data-theme="dexter-lab"] .decor-card p {
+  color: #0c0c0c;
+}
+
 .app {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
@@ -298,6 +306,10 @@ h1 {
   margin-top: 1.5rem;
 }
 
+.decor-card p {
+  color: rgba(61, 44, 53, 0.85);
+}
+
 .decor-card {
   border-radius: 18px;
   padding: 1rem;
@@ -395,17 +407,11 @@ h1 {
 .sticker-overlay {
   position: fixed;
   inset: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.08);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
   z-index: 999;
-  font-size: clamp(3rem, 8vw, 8rem);
 }
 
 .sticker-overlay.visible {
@@ -413,24 +419,26 @@ h1 {
 }
 
 .sticker-overlay__item {
+  position: absolute;
+  font-size: clamp(7rem, 14vw, 20rem);
   animation: overlay-pop 5s ease forwards;
   animation-delay: var(--delay, 0s);
 }
 
 @keyframes overlay-pop {
   0% {
-    transform: scale(0.6) translateY(20px);
+    transform: scale(0.6) translateY(20px) rotate(5deg);
     opacity: 0;
   }
   10% {
-    transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0) rotate(-3deg);
     opacity: 1;
   }
   90% {
     opacity: 0.9;
   }
   100% {
-    transform: scale(2);
+    transform: scale(2.5) translateY(-10px) rotate(8deg);
     opacity: 0;
   }
 }

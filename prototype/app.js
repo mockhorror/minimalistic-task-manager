@@ -37,6 +37,9 @@ const themes = {
       { icon: "🎋", label: "Tanabata ribbon" },
       { icon: "🧺", label: "Bamboo basket" },
       { icon: "🍃", label: "Tea steam" },
+      { icon: "⛩️", label: "Torii gate" },
+      { icon: "🎎", label: "Hina dolls" },
+      { icon: "🥢", label: "Chopsticks" },
     ],
   },
   "beach-episode": {
@@ -58,12 +61,11 @@ const themes = {
       { icon: "🩸", label: "Blood droplets" },
       { icon: "🔪", label: "Knife tabs" },
       { icon: "🧬", label: "DNA ribbon" },
-      { icon: "🕯️", label: "Candle ritual" },
-      { icon: "🩻", label: "Scan overlay" },
       { icon: "🧪", label: "Lab vial" },
       { icon: "🌙", label: "Moon sigil" },
       { icon: "🕷️", label: "Shadow spider" },
       { icon: "🩹", label: "Silver tape" },
+      { icon: "⛵", label: "Night boat" },
       { icon: "🌴", label: "Miami palm" },
     ],
   },
@@ -235,24 +237,30 @@ renderTasks();
 updateStickerPlaceholder();
 
 function launchStickerCelebration() {
-  const stickers = stickerCanvas.querySelectorAll(".sticker span");
-  if (!stickers.length) return;
+  const stickerIcons = Array.from(
+    stickerCanvas.querySelectorAll(".sticker span")
+  ).map((node) => node.textContent);
+  if (!stickerIcons.length) return;
 
   const overlay = document.createElement("div");
   overlay.className = "sticker-overlay";
-  stickers.forEach((node, index) => {
+
+  const totalItems = Math.max(30, stickerIcons.length * 6);
+  for (let i = 0; i < totalItems; i += 1) {
     const item = document.createElement("div");
     item.className = "sticker-overlay__item";
-    item.textContent = node.textContent;
-    item.style.setProperty("--delay", `${index * 0.05}s`);
+    item.textContent = stickerIcons[i % stickerIcons.length];
+    item.style.setProperty("--delay", `${Math.random() * 0.5}s`);
+    item.style.left = `${Math.random() * 100}%`;
+    item.style.top = `${Math.random() * 100}%`;
     overlay.appendChild(item);
-  });
+  }
 
   document.body.appendChild(overlay);
-  setTimeout(() => overlay.classList.add("visible"), 20);
+  requestAnimationFrame(() => overlay.classList.add("visible"));
   setTimeout(() => {
     overlay.classList.remove("visible");
-    setTimeout(() => overlay.remove(), 500);
+    setTimeout(() => overlay.remove(), 600);
   }, 5000);
 }
 
