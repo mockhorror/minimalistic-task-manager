@@ -35,6 +35,19 @@ body[data-theme="dexter-lab"] {
   --page-bg: radial-gradient(circle at 15% 20%, #2d0f19, transparent 60%),
     radial-gradient(circle at 80% 0%, #4b0b18, transparent 55%),
     linear-gradient(135deg, #10040a, #2b0210);
+
+  --text: #fff4f4;
+}
+
+body[data-theme="dexter-lab"] .planner,
+body[data-theme="dexter-lab"] .decor-panel {
+  color: #fff4f4;
+}
+
+body[data-theme="dexter-lab"] .caps-label,
+body[data-theme="dexter-lab"] .subtitle,
+body[data-theme="dexter-lab"] .finish-msg {
+  color: #ffe1e1;
 }
 
 .app {
@@ -53,6 +66,10 @@ body[data-theme="dexter-lab"] {
   padding: 2rem;
   box-shadow: var(--glow);
   backdrop-filter: blur(12px);
+}
+
+.decor-panel {
+  align-self: flex-start;
 }
 
 .planner {
@@ -373,5 +390,48 @@ h1 {
   --canvas-bg: radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.1), transparent 60%),
     radial-gradient(circle at 70% 10%, rgba(240, 67, 67, 0.2), transparent 50%),
     linear-gradient(135deg, rgba(16, 10, 14, 0.95), rgba(47, 5, 17, 0.85));
+}
+
+.sticker-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 999;
+  font-size: clamp(3rem, 8vw, 8rem);
+}
+
+.sticker-overlay.visible {
+  opacity: 1;
+}
+
+.sticker-overlay__item {
+  animation: overlay-pop 5s ease forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes overlay-pop {
+  0% {
+    transform: scale(0.6) translateY(20px);
+    opacity: 0;
+  }
+  10% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
 

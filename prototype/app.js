@@ -58,13 +58,13 @@ const themes = {
       { icon: "🩸", label: "Blood droplets" },
       { icon: "🔪", label: "Knife tabs" },
       { icon: "🧬", label: "DNA ribbon" },
-      { icon: "🪞", label: "Mirror shard" },
       { icon: "🕯️", label: "Candle ritual" },
       { icon: "🩻", label: "Scan overlay" },
       { icon: "🧪", label: "Lab vial" },
       { icon: "🌙", label: "Moon sigil" },
       { icon: "🕷️", label: "Shadow spider" },
       { icon: "🩹", label: "Silver tape" },
+      { icon: "🌴", label: "Miami palm" },
     ],
   },
 };
@@ -214,6 +214,7 @@ taskList.addEventListener("click", (event) => {
 
 finishBtn.addEventListener("click", () => {
   finishMsg.classList.add("visible");
+  launchStickerCelebration();
   setTimeout(() => finishMsg.classList.remove("visible"), 2000);
 });
 
@@ -232,4 +233,26 @@ stickerCanvas.addEventListener("drop", handleStickerDrop);
 setTheme(themeSelect.value);
 renderTasks();
 updateStickerPlaceholder();
+
+function launchStickerCelebration() {
+  const stickers = stickerCanvas.querySelectorAll(".sticker span");
+  if (!stickers.length) return;
+
+  const overlay = document.createElement("div");
+  overlay.className = "sticker-overlay";
+  stickers.forEach((node, index) => {
+    const item = document.createElement("div");
+    item.className = "sticker-overlay__item";
+    item.textContent = node.textContent;
+    item.style.setProperty("--delay", `${index * 0.05}s`);
+    overlay.appendChild(item);
+  });
+
+  document.body.appendChild(overlay);
+  setTimeout(() => overlay.classList.add("visible"), 20);
+  setTimeout(() => {
+    overlay.classList.remove("visible");
+    setTimeout(() => overlay.remove(), 500);
+  }, 5000);
+}
 
