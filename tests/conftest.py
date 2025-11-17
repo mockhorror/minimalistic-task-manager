@@ -1,9 +1,10 @@
 import os
 from pathlib import Path
-from typing import Generator
+from typing import Dict, Generator
 
 import pytest
 from dotenv import load_dotenv
+import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
@@ -77,5 +78,27 @@ def driver(browser_name: str) -> Generator[WebDriver, None, None]:
     yield driver
 
     driver.quit()
+
+
+@pytest.fixture(scope="session")
+def api_session() -> Generator[requests.Session, None, None]:
+    """Общий requests.Session для API тестов."""
+    session = requests.Session()
+    session.headers.update(
+        {
+            "User-Agent": "PPTM-Autotests/0.1",
+            "Accept": "application/json",
+        }
+    )
+    yield session
+    session.close()
+
+
+@pytest.fixture
+def task_lists_client(api_session, api_base_url):
+    """Клиент для работы со списками задач."""
+    from tests.api.clients.task_lists import TaskListsClient
+
+    return TaskListsClient(api_session, api_base_url)
 
 

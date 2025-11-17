@@ -53,3 +53,16 @@ pytest tests/ui/smoke -m ui
 
 Если `PPTM_UI_BASE_URL` оставлен по умолчанию (локальный localhost), smoke-тест автоматически пропускается до появления реального стенда.
 
+## API smoke-тест
+
+```
+PPTM_API_BASE_URL=https://pilates-princess-api.example.com
+```
+
+```bash
+source .venv/bin/activate
+pytest tests/api/smoke -m api
+```
+
+При отсутствии настроенного API (значение по умолчанию `http://localhost:8000`) тест помечается `skip`, чтобы пайплайн оставался зелёным до появления стенда.
+
