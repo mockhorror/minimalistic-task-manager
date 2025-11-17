@@ -245,12 +245,12 @@ function launchStickerCelebration() {
   const overlay = document.createElement("div");
   overlay.className = "sticker-overlay";
 
-  const totalItems = Math.max(30, stickerIcons.length * 6);
+  const totalItems = Math.max(20, stickerIcons.length * 5);
   for (let i = 0; i < totalItems; i += 1) {
     const item = document.createElement("div");
     item.className = "sticker-overlay__item";
     item.textContent = stickerIcons[i % stickerIcons.length];
-    item.style.setProperty("--delay", `${Math.random() * 0.5}s`);
+    item.style.setProperty("--delay", `${Math.random() * 0.3}s`);
     item.style.left = `${Math.random() * 100}%`;
     item.style.top = `${Math.random() * 100}%`;
     overlay.appendChild(item);
