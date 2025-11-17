@@ -6,6 +6,7 @@ const taskForm = document.querySelector("#task-form");
 const taskInput = document.querySelector("#task-input");
 const finishBtn = document.querySelector(".finish-btn");
 const finishMsg = document.querySelector("#finish-msg");
+const stickerCanvas = document.querySelector("#sticker-canvas");
 
 const themes = {
   "pilates-princess": {
@@ -14,6 +15,8 @@ const themes = {
       { icon: "🧘‍♀️", label: "Stretch tracker" },
       { icon: "💗", label: "Soft hearts" },
       { icon: "📎", label: "Rose clips" },
+      { icon: "🩰", label: "Ballet tabs" },
+      { icon: "🌸", label: "Sakura tape" },
     ],
   },
   "matcha-village": {
@@ -22,6 +25,8 @@ const themes = {
       { icon: "🌿", label: "Leaf corners" },
       { icon: "🏮", label: "Paper lantern" },
       { icon: "🥠", label: "Fortune stickers" },
+      { icon: "🍡", label: "Dango dots" },
+      { icon: "📜", label: "Haiku scroll" },
     ],
   },
   "beach-episode": {
@@ -30,6 +35,8 @@ const themes = {
       { icon: "🌊", label: "Wave dividers" },
       { icon: "🐚", label: "Shell stickers" },
       { icon: "🩴", label: "Flip-flop tabs" },
+      { icon: "🍧", label: "Shaved ice tag" },
+      { icon: "🪸", label: "Coral corners" },
     ],
   },
 };
@@ -58,7 +65,11 @@ function renderDecor(theme) {
   themes[theme].decor.forEach((card) => {
     const div = document.createElement("div");
     div.className = "decor-card";
+    div.draggable = true;
+    div.dataset.icon = card.icon;
+    div.dataset.label = card.label;
     div.innerHTML = `<span>${card.icon}</span><p>${card.label}</p>`;
+    div.addEventListener("dragstart", handleDecorDragStart);
     decorGrid.appendChild(div);
   });
 }
@@ -66,6 +77,46 @@ function renderDecor(theme) {
 function setTheme(theme) {
   appRoot.dataset.theme = theme;
   renderDecor(theme);
+}
+
+function updateStickerPlaceholder() {
+  const hasStickers = stickerCanvas.querySelectorAll(".sticker").length > 0;
+  stickerCanvas.classList.toggle("has-stickers", hasStickers);
+}
+
+function handleDecorDragStart(event) {
+  const { icon, label } = event.currentTarget.dataset;
+  event.dataTransfer.setData(
+    "application/json",
+    JSON.stringify({ icon, label })
+  );
+  event.dataTransfer.effectAllowed = "copy";
+}
+
+function handleStickerDrop(event) {
+  event.preventDefault();
+  const data = event.dataTransfer.getData("application/json");
+  if (!data) return;
+
+  const { icon, label } = JSON.parse(data);
+  const rect = stickerCanvas.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+
+  const sticker = document.createElement("button");
+  sticker.type = "button";
+  sticker.className = "sticker";
+  sticker.style.left = `${x - 32}px`;
+  sticker.style.top = `${y - 32}px`;
+  sticker.innerHTML = `<span>${icon}</span>`;
+  sticker.title = label;
+  sticker.addEventListener("click", () => {
+    sticker.remove();
+    updateStickerPlaceholder();
+  });
+
+  stickerCanvas.appendChild(sticker);
+  updateStickerPlaceholder();
 }
 
 taskForm.addEventListener("submit", (event) => {
@@ -105,7 +156,15 @@ themeSelect.addEventListener("change", (event) => {
   setTheme(event.target.value);
 });
 
+stickerCanvas.addEventListener("dragover", (event) => {
+  event.preventDefault();
+  event.dataTransfer.dropEffect = "copy";
+});
+
+stickerCanvas.addEventListener("drop", handleStickerDrop);
+
 // Initial render
 setTheme(themeSelect.value);
 renderTasks();
+updateStickerPlaceholder();
 

@@ -35,6 +35,11 @@ body {
   backdrop-filter: blur(12px);
 }
 
+.planner {
+  position: relative;
+  overflow: hidden;
+}
+
 .planner__header {
   display: flex;
   justify-content: space-between;
@@ -42,25 +47,73 @@ body {
   gap: 1.5rem;
 }
 
-.pill {
-  display: inline-flex;
-  padding: 0.4rem 0.9rem;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border-radius: 999px;
-  background: var(--pill-bg);
-}
-
 h1 {
   font-family: "Playfair Display", serif;
-  margin: 0.2rem 0 0.2rem;
+  margin: 0;
   font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.planner__header h1 {
+  transform: translateY(-6px);
 }
 
 .subtitle {
   margin: 0;
   color: #6b4f5a;
+}
+
+.sticker-canvas {
+  border-radius: 24px;
+  border: 1px dashed rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 1rem;
+  min-height: 160px;
+  margin-top: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.sticker-canvas p {
+  margin: 0;
+  text-align: center;
+  color: rgba(61, 44, 53, 0.5);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.sticker-canvas.has-stickers .sticker-placeholder {
+  opacity: 0;
+}
+
+.sticker {
+  position: absolute;
+  min-width: 64px;
+  min-height: 64px;
+  border: none;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  font-size: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: sticker-pop 0.25s ease;
+}
+
+.sticker span {
+  pointer-events: none;
+}
+
+@keyframes sticker-pop {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .theme-switcher select {
@@ -182,6 +235,26 @@ h1 {
   background: var(--decor-bg);
 }
 
+.decor-panel header {
+  margin-bottom: 1rem;
+}
+
+.decor-label {
+  display: inline-block;
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  margin: 0 0 0.2rem;
+  color: rgba(61, 44, 53, 0.75);
+  letter-spacing: 0.04em;
+}
+
+.decor-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  margin: 0;
+  text-transform: lowercase;
+}
+
 .decor-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -200,13 +273,17 @@ h1 {
   flex-direction: column;
   justify-content: center;
   gap: 0.5rem;
-  cursor: pointer;
+  cursor: grab;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .decor-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--glow);
+}
+
+.decor-card:active {
+  cursor: grabbing;
 }
 
 .decor-card span {

@@ -17,9 +17,7 @@
       <section class="planner">
         <header class="planner__header">
           <div>
-            <p class="pill">Pilates Princess</p>
             <h1>Daybook</h1>
-            <p class="subtitle">Собери свой нежный to-do лист</p>
           </div>
           <div class="theme-switcher">
             <label for="theme-select">Эстетика</label>
@@ -30,6 +28,14 @@
             </select>
           </div>
         </header>
+
+        <section
+          class="sticker-canvas"
+          id="sticker-canvas"
+          aria-label="Область для стикеров"
+        >
+          <p class="sticker-placeholder">Перетащи милые стикеры сюда</p>
+        </section>
 
         <section class="tasks" data-testid="task-column">
           <div class="tasks__header">
@@ -55,8 +61,8 @@
 
       <section class="decor-panel" data-testid="decor-panel">
         <header>
-          <p class="pill">Decor lab</p>
-          <h2>Желейные элементы</h2>
+          <p class="decor-label">Decor Lab</p>
+          <h2 class="decor-title">mood sticker pack</h2>
           <p class="subtitle">
             Перетаскивай элементы на страницу, чтобы настроить настроение дня
           </p>
