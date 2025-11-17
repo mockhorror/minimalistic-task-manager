@@ -61,10 +61,7 @@ const themes = {
 
 const deckState = {};
 
-let tasks = [
-  { id: crypto.randomUUID(), text: "Morning pilates flow", done: false },
-  { id: crypto.randomUUID(), text: "Matcha latte & journaling", done: true },
-];
+let tasks = [];
 
 function renderTasks() {
   taskList.innerHTML = "";
@@ -105,6 +102,8 @@ function setTheme(theme) {
   appRoot.dataset.theme = theme;
   deckState[theme] = 0;
   renderDecor(theme);
+  stickerCanvas.innerHTML = `<p class="sticker-placeholder">Перетащи милые стикеры сюда</p>`;
+  updateStickerPlaceholder();
 }
 
 function updateStickerPlaceholder() {
@@ -134,8 +133,8 @@ function handleStickerDrop(event) {
   const sticker = document.createElement("button");
   sticker.type = "button";
   sticker.className = "sticker";
-  sticker.style.left = `${x - 32}px`;
-  sticker.style.top = `${y - 32}px`;
+  sticker.style.left = `${x - 90}px`;
+  sticker.style.top = `${y - 90}px`;
   sticker.innerHTML = `<span>${icon}</span>`;
   sticker.title = label;
   sticker.addEventListener("click", () => {
