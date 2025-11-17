@@ -73,5 +73,15 @@ allure serve allure-results
 
 `allure.properties` и `.allure.yml` уже настроены на каталог `allure-results`.
 
+## CI
+
+GitHub Actions (`.github/workflows/tests.yml`) автоматически:
+
+- запускает `pytest -m "ui or api"` на Python 3.11 в `ubuntu-latest`;
+- собирает артефакт `allure-results` (даже если тесты помечены `skip`);
+- работает по событию `push`/`pull_request` в ветку `main`.
+
+При появлении реальных стендов добавь в Secrets (`PPTM_UI_BASE_URL`, `PPTM_API_BASE_URL`) и workflow начнёт выполнять smoke-сценарии без `skip`.
+
 При отсутствии настроенного API (значение по умолчанию `http://localhost:8000`) тест помечается `skip`, чтобы пайплайн оставался зелёным до появления стенда.
 
