@@ -1,4 +1,4 @@
-# Pilates Princess Task Manager
+# Minimalist Task Manager
 
 Pet-проект для практики QA Automation на Python. Планируем построить набор автотестов (UI, API, smoke/regression/e2e) вокруг воображаемого минималистичного таск-менеджера в эстетике soft shojo/pinterest — ежедневник с pastel-фонами, коробкой лёгких 2D-элементов и мотивационными сообщениями в духе “Pilates Princess”.
 
